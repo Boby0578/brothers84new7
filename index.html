@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Brothers84 - Monster Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ECRAN TITRE -->
+    <div id="title-screen" class="screen active">
+        <h1 class="neon-green">Brothers84</h1>
+        <button id="start-btn" class="neon-orange-btn">START</button>
+    </div>
+
+    <!-- ECRAN CHOIX STARTER -->
+    <div id="starter-screen" class="screen">
+        <h2>Choose your Creature</h2>
+        <div id="starter-choices">
+            <div class="starter-card" data-type="fire"><span class="emoji">🔥</span><span class="type-name">Fire</span></div>
+            <div class="starter-card" data-type="water"><span class="emoji">💧</span><span class="type-name">Water</span></div>
+            <div class="starter-card" data-type="plant"><span class="emoji">🌿</span><span class="type-name">Plant</span></div>
+        </div>
+        <input type="text" id="creature-name" placeholder="Creature Name" maxlength="12">
+        
+        <div id="stat-allocator">
+            <h3 class="stat-title">Allocate Points (<span id="pts-left">20</span> left)</h3>
+            <div class="stat-row"><span class="stat-name vit-color">VIT</span><button class="stat-btn minus" data-stat="vit">-</button><span id="stat-vit" class="stat-val">10</span><button class="stat-btn plus" data-stat="vit">+</button></div>
+            <div class="stat-row"><span class="stat-name str-color">STR</span><button class="stat-btn minus" data-stat="str">-</button><span id="stat-str" class="stat-val">10</span><button class="stat-btn plus" data-stat="str">+</button></div>
+            <div class="stat-row"><span class="stat-name int-color">INT</span><button class="stat-btn minus" data-stat="int">-</button><span id="stat-int" class="stat-val">10</span><button class="stat-btn plus" data-stat="int">+</button></div>
+            <div class="stat-row"><span class="stat-name res-color">RES</span><button class="stat-btn minus" data-stat="res">-</button><span id="stat-res" class="stat-val">10</span><button class="stat-btn plus" data-stat="res">+</button></div>
+            <div class="stat-row"><span class="stat-name agi-color">AGI</span><button class="stat-btn minus" data-stat="agi">-</button><span id="stat-agi" class="stat-val">10</span><button class="stat-btn plus" data-stat="agi">+</button></div>
+        </div>
+
+        <button id="confirm-starter" class="neon-orange-btn">Confirm</button>
+    </div>
+
+    <!-- ECRAN MONDE -->
+    <div id="world-screen" class="screen">
+        <canvas id="world-canvas"></canvas>
+        <div id="world-ui">
+            <div id="player-info"><span id="ui-name"></span> Lvl <span id="ui-lvl">1</span></div>
+            <div class="bar-ui"><span class="bar-label hp-color">HP</span><div id="ui-hp-bar" class="bar"><div class="bar-fill hp"></div><span>200/200</span></div></div>
+            <div class="bar-ui"><span class="bar-label mp-color">MP</span><div id="ui-mp-bar" class="bar"><div class="bar-fill mp"></div><span>100/100</span></div></div>
+            <div class="bar-ui"><span class="bar-label xp-color">XP</span><div id="ui-xp-bar" class="bar"><div class="bar-fill xp"></div><span>0/5000</span></div></div>
+        </div>
+        <button id="btn-restore-map" class="restore-map-btn">Restore (Ad)</button>
+        <div id="joystick-zone"><div id="joystick-thumb"></div></div>
+        <button id="world-wallet-btn" class="wallet-btn-small">💰</button>
+    </div>
+
+    <!-- ECRAN WALLET -->
+    <div id="wallet-screen" class="screen">
+        <button id="wallet-close-btn" class="close-btn">✖</button>
+        <h2 class="neon-green" style="font-size: 1.5rem;">MY WALLET</h2>
+        <div id="wallet-infos">
+            <p>Ads Watched: <span id="w-ads">0</span></p>
+            <p>Earned: <span id="w-money" class="stat-name vit-color">0.000</span> $</p>
+        </div>
+        <button id="withdraw-btn" class="neon-orange-btn" disabled>Withdraw</button>
+    </div>
+
+    <!-- ECRAN COMBAT -->
+    <div id="battle-screen" class="screen">
+        <div id="battle-arena">
+            <canvas id="battle-canvas"></canvas>
+            <div id="battle-effects"></div>
+        </div>
+        <div id="battle-ui">
+            <div id="b-player-stats" class="b-stats">
+                <h3 id="b-p-name" class="stat-name str-color"></h3>
+                <div class="bar-ui-sm"><span class="bar-label hp-color">HP</span><div class="bar"><div class="bar-fill hp"></div><span class="hp-txt"></span></div></div>
+                <div class="bar-ui-sm"><span class="bar-label mp-color">MP</span><div class="bar"><div class="bar-fill mp"></div><span class="mp-txt"></span></div></div>
+                <div class="bar-ui-sm"><span class="bar-label vit-color">ATB</span><div class="bar atb-bar"><div class="bar-fill atb-p"></div></div></div>
+            </div>
+            <div id="b-enemy-stats" class="b-stats">
+                <h3 id="b-e-name" class="stat-name res-color"></h3>
+                <div class="bar-ui-sm"><span class="bar-label hp-color">HP</span><div class="bar"><div class="bar-fill hp"></div><span class="hp-txt"></span></div></div>
+                <div class="bar-ui-sm"><span class="bar-label mp-color">MP</span><div class="bar"><div class="bar-fill mp"></div><span class="mp-txt"></span></div></div>
+                <div class="bar-ui-sm"><span class="bar-label vit-color">ATB</span><div class="bar atb-bar"><div class="bar-fill atb-e"></div></div></div>
+            </div>
+            <div id="battle-log"></div>
+            <div id="battle-actions" class="hidden">
+                <button class="action-btn" id="btn-attack">Attack</button>
+                <button class="action-btn" id="btn-magic">Magic</button>
+                <button class="action-btn agi-color" id="btn-steal">Steal</button>
+                <button class="action-btn" id="btn-inventory">Inventory</button>
+                <button class="action-btn" id="btn-symbols">Symbols</button>
+            </div>
+            <div id="sub-menu" class="hidden">
+                <div id="sub-menu-list"></div>
+                <button class="action-btn back-btn" id="btn-back">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ECRAN GAME OVER -->
+    <div id="gameover-screen" class="screen">
+        <h1 class="neon-red">GAME OVER</h1>
+        <button id="revive-btn" class="neon-purple-btn">Revive (10 Ads)</button>
+    </div>
+
+    <!-- ECRAN VICTOIRE -->
+    <div id="win-screen" class="screen">
+        <h1 class="neon-green">VICTORY!</h1>
+        <p>You conquered Evil!</p>
+    </div>
+
+    <script src='//libtl.com/sdk.js' data-zone='10997672' data-sdk='show_10997672'></script>
+    <script src="script.js"></script>
+</body>
+</html>

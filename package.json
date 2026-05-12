@@ -1,0 +1,10 @@
+{
+  "name": "brothers84-monster-quest",
+  "version": "1.0.0",
+  "description": "Telegram Mini App - Monster Game",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static Build'"
+  }
+}
